@@ -4,7 +4,7 @@ import math
 import cv2
 import imutils
 from google.colab.patches import cv2_imshow
-
+from typing_extensions import Self
 
 class Image2TimeSeries:
     """

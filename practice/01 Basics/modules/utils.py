@@ -18,7 +18,6 @@ def read_ts(file_path: str) -> np.ndarray:
     """
 
     ts = pd.read_csv(file_path, header=None, delim_whitespace=True)
-    
     return ts.to_numpy()
 
 

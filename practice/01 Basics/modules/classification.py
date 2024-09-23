@@ -1,8 +1,11 @@
+from typing import Optional
+
 import numpy as np
+
 
 from modules.metrics import *
 from modules.utils import z_normalize
-
+from typing_extensions import Self
 
 default_metrics_params = {'euclidean': {'normalize': True},
                          'dtw': {'normalize': True, 'r': 0.05}
@@ -20,11 +23,11 @@ class TimeSeriesKNN:
     metric_params: dictionary containing parameters for the distance metric being used
     """
     
-    def __init__(self, n_neighbors: int = 3, metric: str = 'euclidean', metric_params: dict | None = None) -> None:
+    def __init__(self, n_neighbors: int = 3, metric: str = 'euclidean', metric_params: Optional[dict] = None) -> None:
 
         self.n_neighbors: int = n_neighbors
         self.metric: str = metric
-        self.metric_params: dict | None = default_metrics_params[metric].copy()
+        self.metric_params: Optional[dict] = default_metrics_params[metric].copy()
         if metric_params is not None:
             self.metric_params.update(metric_params)
 

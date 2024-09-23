@@ -6,7 +6,7 @@ import plotly
 from plotly.subplots import make_subplots
 from plotly.offline import init_notebook_mode
 import plotly.graph_objs as go
-plotly.offline.init_notebook_mode(connected=True)
+#plotly.offline.init_notebook_mode(connected=True)
 
 
 def plot_ts(ts_set: np.ndarray, plot_title: str = 'Input Time Series Set'):
@@ -53,4 +53,4 @@ def plot_ts(ts_set: np.ndarray, plot_title: str = 'Input Time Series Set'):
                       height=400
                       )
 
-    fig.show(renderer="colab")
+    fig.show()#fig.show(renderer="colab")
