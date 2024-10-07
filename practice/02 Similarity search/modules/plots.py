@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 from plotly.offline import init_notebook_mode
 import plotly.graph_objs as go
 import plotly.express as px
-plotly.offline.init_notebook_mode(connected=True)
+#plotly.offline.init_notebook_mode(connected=True)
 
 
 def plot_ts_set(ts_set: np.ndarray, title: str = 'Input Time Series Set') -> None:
@@ -54,7 +54,7 @@ def plot_ts_set(ts_set: np.ndarray, title: str = 'Input Time Series Set') -> Non
     fig.show(renderer="colab")
 
 
-def mplot2d(x: np.ndarrray, y: np.ndarrray, plot_title: str = None, x_title: str = None, y_title: str = None, trace_titles: np.ndarray = None) -> None:
+def mplot2d(x: np.ndarray, y: np.ndarray, plot_title: str = None, x_title: str = None, y_title: str = None, trace_titles: np.ndarray = None) -> None:
     """
     Multiple 2D Plots on figure for different experiments
 
@@ -103,7 +103,7 @@ def mplot2d(x: np.ndarrray, y: np.ndarrray, plot_title: str = None, x_title: str
     fig.show(renderer="colab")
 
 
-def plot_bestmatch_data(ts: np.ndarrray, query: np.ndarray) -> None:
+def plot_bestmatch_data(ts: np.ndarray, query: np.ndarray) -> None:
     """
     Visualize the input data (time series and query) for the best match task
 
@@ -146,10 +146,11 @@ def plot_bestmatch_data(ts: np.ndarrray, query: np.ndarray) -> None:
                       showlegend=False,
                       title_x=0.5)
 
-    fig.show(renderer="colab")
+    #fig.show(renderer="colab")
+    fig.show()
 
 
-def plot_bestmatch_results(ts: np.ndarrray, query: np.ndarrray, bestmatch_results: dict) -> None:
+def plot_bestmatch_results(ts: np.ndarray, query: np.ndarray, bestmatch_results: dict) -> None:
     """
     Visualize the best match results
 
@@ -160,10 +161,54 @@ def plot_bestmatch_results(ts: np.ndarrray, query: np.ndarrray, bestmatch_result
     bestmatch_results: output data found by the best match algorithm
     """
 
-    # INSERT YOUR CODE
+    query_len = query.shape[0]
+    ts_len = ts.shape[0]
+
+    ts_len2 = ts[bestmatch_results['indices'][1]:bestmatch_results['indices'][1] + query_len].shape[0]
+    fig = make_subplots(rows=1, cols=2, column_widths=[0.1, 0.9], subplot_titles=("Query", "Time Series"),
+                        horizontal_spacing=0.04)
+
+    fig.add_trace(go.Scatter(x=np.arange(query_len), y=query, line=dict(color=px.colors.qualitative.Plotly[1])),
+                  row=1, col=1)
+    fig.add_trace(go.Scatter(x=np.arange(ts_len), y=ts, line=dict(color=px.colors.qualitative.Plotly[0])),
+                  row=1, col=2)
+
+    for i in range(len(bestmatch_results['indices'])):
+        fig.add_trace(go.Scatter(
+            x=np.add(np.arange(ts[bestmatch_results['indices'][i]:bestmatch_results['indices'][i] + query_len].shape[0]),bestmatch_results['indices'][i]),
+            y=ts[bestmatch_results['indices'][i]:bestmatch_results['indices'][i] + query_len],
+            line=dict(color=px.colors.qualitative.Plotly[2])),
+            row=1, col=2)
+
+    fig.update_annotations(font=dict(size=24, color='black'))
+
+    fig.update_xaxes(showgrid=False,
+                     linecolor='#000',
+                     ticks="outside",
+                     tickfont=dict(size=18, color='black'),
+                     linewidth=1,
+                     tickwidth=1,
+                     mirror=True)
+    fig.update_yaxes(showgrid=False,
+                     linecolor='#000',
+                     ticks="outside",
+                     tickfont=dict(size=18, color='black'),
+                     zeroline=False,
+                     linewidth=1,
+                     tickwidth=1,
+                     mirror=True)
+
+    fig.update_layout(plot_bgcolor="rgba(0,0,0,0)",
+                      paper_bgcolor='rgba(0,0,0,0)',
+                      showlegend=False,
+                      title_x=0.5)
+
+    # fig.show(renderer="colab")
+    fig.show()
 
 
-def pie_chart(labels: np.ndarrray, values: np.ndarrray, plot_title='Pie chart') -> None:
+
+def pie_chart(labels: np.ndarray, values: np.ndarray, plot_title='Pie chart') -> None:
     """
     Build the pie chart
 

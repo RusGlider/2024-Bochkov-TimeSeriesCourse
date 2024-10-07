@@ -90,19 +90,21 @@ def task4(): #TODO
 
 
     dist_matrix_dtw = PairwiseDistance(metric='dtw').calculate(ts_set.values)
-    clustering_dtw = TimeSeriesHierarchicalClustering(n_clusters=3, method='average')
+    clustering_dtw = TimeSeriesHierarchicalClustering(n_clusters=3, method='complete')
     dtw_classes = clustering_dtw.fit_predict(dist_matrix_dtw)
     #clustering_dtw.plot_dendrogram(ts_set.values, dtw_classes, title='DTW дендрограмма')
 
     dist_matrix_eucl = PairwiseDistance(metric='euclidean').calculate(ts_set.values)
-    clustering_eucl = TimeSeriesHierarchicalClustering(n_clusters=3, method='average')
+    clustering_eucl = TimeSeriesHierarchicalClustering(n_clusters=3, method='complete')
     eucl_classes = clustering_eucl.fit_predict(dist_matrix_eucl)
     #clustering_eucl.plot_dendrogram(ts_set.values, eucl_classes, title='Euclidean дендрограмма')
 
     silhouette_dtw = silhouette_score(ts_set.values, dtw_classes)
     silhouette_eucl = silhouette_score(ts_set.values, eucl_classes)
-    print(f'dtw silhouette score:\t{silhouette_dtw}')
-    print(f'eucl silhouette score:\t{silhouette_eucl}')
+    print(f'dtw silhouette score:\t{silhouette_dtw}')  # dtw silhouette score:	0.023040606812754775
+    print(f'eucl silhouette score:\t{silhouette_eucl}')# eucl silhouette score:	0.18039177279068866
+
+
 
     #dist_matrix = PairwiseDistance(metric='euclidean').calculate(np.asarray(ts_set))
     #model = TimeSeriesHierarchicalClustering(n_clusters=3).fit(dist_matrix)
@@ -119,6 +121,8 @@ def task5():
     dist1 = norm_ED_distance(data1,data2)
     dist2 = euclidean_distance(z_normalize(data1),z_normalize(data2))
     test_distances(dist1,dist2)
+    print(f'{dist1=}')
+    print(f'{dist2=}')
     print('test complete')
 
 def task6():
@@ -142,12 +146,12 @@ def task6():
 
     pairwise_euclidean = PairwiseDistance(metric='euclidean', is_normalize=False)
     distance_matrix_euclidean = pairwise_euclidean.calculate(subs_set)
-    clustering_euclidean = TimeSeriesHierarchicalClustering(n_clusters=2, method='complete').fit(distance_matrix_euclidean)
+    clustering_euclidean = TimeSeriesHierarchicalClustering(n_clusters=2, method='average').fit(distance_matrix_euclidean)
 
 
     pairwise_norm_euclidean = PairwiseDistance(metric='euclidean', is_normalize=True)
     distance_matrix_norm_euclidean = pairwise_norm_euclidean.calculate(subs_set)
-    clustering_norm_euclidean = TimeSeriesHierarchicalClustering(n_clusters=2, method='complete').fit(distance_matrix_norm_euclidean)
+    clustering_norm_euclidean = TimeSeriesHierarchicalClustering(n_clusters=2, method='average').fit(distance_matrix_norm_euclidean)
 
 
     # Визуализируем результаты для обычной евклидовой метрики
