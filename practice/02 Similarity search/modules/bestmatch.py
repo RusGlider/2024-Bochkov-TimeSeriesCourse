@@ -164,7 +164,7 @@ class NaiveBestMatchFinder(BestMatchFinder):
                 dist_profile[i] = dist
                 bestmatch=topK_match(dist_profile, excl_zone, self.topK)
                 if np.max(bestmatch['distances'])==self.topK:
-                    bsf=np.max(DTW_distance(query,ts_data[j]),self.r)
+                    bsf=np.max(DTW_distance(query,ts_data[i]),self.r)
                 
 
         return bestmatch
