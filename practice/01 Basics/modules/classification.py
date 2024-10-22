@@ -88,7 +88,14 @@ class TimeSeriesKNN:
 
         neighbors = []
 
-        # INSERT YOUR CODE
+        distances = []
+        for i, x_train in enumerate(self.X_train):
+            dist = self._distance(x_train, x_test)
+            distances.append((dist, self.Y_train[i]))
+
+        distances.sort(key=lambda x: x[0])
+
+        neighbors = distances[:self.n_neighbors]
 
         return neighbors
 
@@ -107,8 +114,15 @@ class TimeSeriesKNN:
         """
 
         y_pred = []
-
-        # INSERT YOUR CODE
+        
+        for x_test in X_test:
+            neighbors = self._find_neighbors(x_test)
+            
+            neighbor_labels = [label for _, label in neighbors]
+            
+            pred_label = max(set(neighbor_labels), key=neighbor_labels.count)
+            y_pred.append(pred_label)
+        return np.array(y_pred)
 
         return np.array(y_pred)
 
