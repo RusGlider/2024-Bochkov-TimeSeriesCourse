@@ -22,9 +22,7 @@ def compute_mp(ts1: np.ndarray, m: int, exclusion_zone: int = None, ts2: np.ndar
     output: the matrix profile structure
             (matrix profile, matrix profile index, subsequence length, exclusion zone, the first and second time series)
     """
-    
-    # INSERT YOUR CODE
-
+    mp = stumpy.stump(T_A=ts1, m=m, T_B=ts2)
     return {'mp': mp[:, 0],
             'mpi': mp[:, 1],
             'm' : m,
