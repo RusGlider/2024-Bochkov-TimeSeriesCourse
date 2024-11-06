@@ -87,7 +87,8 @@ def plot_motifs(mp: dict, top_k_motifs: dict) -> None:
         left_motif_idx = top_k_motifs['indices'][i][0]
         right_motif_idx = top_k_motifs['indices'][i][1]
         x = np.arange(left_motif_idx, right_motif_idx+m)
-        num_values_between_motif = right_motif_idx - (left_motif_idx+m)
+        #num_values_between_motif = right_motif_idx - (left_motif_idx+m)
+        num_values_between_motif = max(0, right_motif_idx - (left_motif_idx + m))
         y = np.concatenate((mp['data']['ts1'][left_motif_idx:left_motif_idx+m], np.full([1, num_values_between_motif], np.nan)[0], mp['data']['ts1'][right_motif_idx:right_motif_idx+m]))
         color_i = i % len(px.colors.qualitative.Plotly)
         fig.add_trace(go.Scatter(x=x, y=y, name=f"Top-{i+1} motifs", line=dict(color=px.colors.qualitative.Plotly[color_i])), row=1, col=1) #line=dict(color=px.colors.qualitative.Plotly[i+1])
